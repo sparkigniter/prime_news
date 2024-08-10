@@ -31,7 +31,7 @@ cron.schedule('0 * * * *', async () => {
 });
 
 // Second cron job: runs every 1 hour and 10 minutes
-cron.schedule('10 * * * *', async () => {
+cron.schedule('* * * * *', async () => {
     console.log("Schedule cron job consumeNews......");
     await consumeNews();
 });

@@ -5,5 +5,6 @@ const newsController = require("../controllers/NewsController");
 
 /********* news routes **********/
 router.get("/", newsController.getNews);
+router.post("/", newsController.process);
 
 module.exports = router;

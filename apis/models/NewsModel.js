@@ -14,6 +14,9 @@ const getNews = async () => {
 }
 
 exports.bulkInsert = async function ({ articles }) {
+    if(!Array.isArray(articles) || articles.length == 0){
+        return false;
+    }
     const client = await pg.createConnection(); // Create connection
     try {
         const existingNews = await getNews();
@@ -34,8 +37,6 @@ exports.bulkInsert = async function ({ articles }) {
             article.publishedAt,
             article.content
         ]);
-
-
 
         if (data.length <= 0) {
             return;

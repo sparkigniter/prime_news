@@ -13,7 +13,7 @@ exports.fetchNews = async () => {
         const endpoint = TOP_HEADLINES_ENDPOINT.replace('^\/\g', "");
         const to = moment().toISOString();
         const from = moment().subtract(1, 'hour').toISOString();
-        const endpointUrl = `${hostUrl}/${endpoint}?from=${from}&to=${to}&sources${sources}`;
+        const endpointUrl = `${hostUrl}/${endpoint}?from=${from}&to=${to}&sources=${sources}`;
         const res = await axios.get(endpointUrl, {
             headers: {
                 'Authorization': `Bearer ${API_KEY}`
