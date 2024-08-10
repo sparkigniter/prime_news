@@ -1,0 +1,50 @@
+version: '2'
+services:
+ 
+  api:
+    build:
+      context: apis
+    container_name: node-api-backend
+    volumes:
+      - ./apis:/usr/src/app/apis
+    tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - node-network
+    depends_on:
+      - postgres
+
+  cronjob:
+    image: node:14-alpine
+    working_dir: /usr/src/app/apis
+    volumes:
+      - ./apis:/usr/src/app/apis
+    command: "node ./cron-jobs/news.js"
+    depends_on:
+      - rabbitmq   
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+  postgres: 
+    image: postgres:12.20-bullseye
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment: 
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ./apis/Docker/postgres/:/docker-entrypoint-initdb.d/
+
+
+networks: 
+  node-network:
+    driver: bridge
