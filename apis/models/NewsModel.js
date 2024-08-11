@@ -5,7 +5,7 @@ const format = require('pg-format');
 const getNews = async () => {
     try {
         const client = await pg.createConnection();
-        const res = await client.query("SELECT * FROM article");
+        const res = await client.query("SELECT * FROM article order by id desc");
         return res.rows; // Return the rows, not the full result object
     } catch (error) {
         console.error('Error fetching news:', error);
